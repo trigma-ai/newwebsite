@@ -1,8 +1,7 @@
 name: Deploy React + Vite to Hostinger
 
 on:
-  workflow_dispatch:
-
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   build-and-deploy:
@@ -31,10 +30,10 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
-          host: ${{ secrets.HOSTINGER_HOST }}
+          host: 46.28.45.69               # Hostinger server IP
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          port: 22
+          port: 65002                     # Custom SSH port
           script: |
             # Remove old files
             rm -rf /home/${{ secrets.HOSTINGER_USER }}/public_html/academic.vpszeta.in/*
