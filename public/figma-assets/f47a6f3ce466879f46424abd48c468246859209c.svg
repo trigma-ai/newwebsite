@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 756 455" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Gallery Container">
+<path id="Vector" d="M151.2 0V454.356M302.4 0V454.356M453.6 0V454.356M604.8 0V454.356M756 151.2L0 151.2M756 302.4H0" stroke="var(--stroke-0, #1D211D)"/>
+<path id="Vector_2" d="M146.664 146.664L155.736 155.736M155.736 146.664L146.664 155.736" stroke="var(--stroke-0, #1D211D)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M449.064 297.864L458.136 306.936M458.136 297.864L449.064 306.936" stroke="var(--stroke-0, #1D211D)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M600.264 146.664L609.336 155.736M609.336 146.664L600.264 155.736" stroke="var(--stroke-0, #1D211D)" stroke-linecap="round" stroke-linejoin="round"/>
+<rect id="Gallery Image" x="453.6" y="151.2" width="151.2" height="151.2" fill="var(--fill-0, #172719)" fill-opacity="0.3"/>
+<rect id="Gallery Image_2" x="151.2" width="151.2" height="151.2" fill="var(--fill-0, #172719)" fill-opacity="0.3"/>
+<rect id="Gallery Image_3" x="302.4" y="302.4" width="151.2" height="151.2" fill="var(--fill-0, #172719)" fill-opacity="0.3"/>
+</g>
+</svg>
