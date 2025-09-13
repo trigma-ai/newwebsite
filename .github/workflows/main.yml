@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Build the project
+      # Step 4: Build the React project
       - name: Build React project
         run: npm run build
 
@@ -30,10 +30,10 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
-          host: 46.28.45.69               # Hostinger server IP
-          username: ${{ secrets.HOSTINGER_USER }}
-          key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          port: 65002                     # Custom SSH port
+          host: 46.28.45.69                        # Hostinger server IP
+          username: ${{ secrets.HOSTINGER_USER }}  # SSH username
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}    # SSH private key
+          port: 65002                              # SSH port
           script: |
             # Remove old files
             rm -rf /home/${{ secrets.HOSTINGER_USER }}/public_html/academic.vpszeta.in/*
