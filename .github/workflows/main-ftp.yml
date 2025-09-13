@@ -23,7 +23,7 @@ jobs:
       run: npm run build
 
     - name: Deploy via FTP
-      uses: trigma/FTP-Deploy-Action@v4   # ✅ Correct usage
+      uses: SamKirkland/FTP-Deploy-Action@v4   # ✅ Correct usage
       with:
         server: ${{ secrets.FTP_HOST }}
         username: trigmauser
