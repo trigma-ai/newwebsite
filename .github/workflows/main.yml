@@ -1,9 +1,7 @@
 name: Deploy React App via SSH
 
 on:
-  push:
-    branches:
-      - main   # Or your default branch
+  workflow_dispatch:    # Manual trigger
 
 jobs:
   deploy:
