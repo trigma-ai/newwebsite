@@ -1,4 +1,4 @@
-name: Deploy Vite React App to Hostinger via FTP
+name: Deploy FTP
 
 on:
   workflow_dispatch:    # Manual trigger
@@ -17,16 +17,18 @@ jobs:
         node-version: '18'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build Vite React App
       run: npm run build
 
-    - name: Deploy via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4   # ✅ Correct usage
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: trigmauser
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist
-        server-dir: /public_html/
+    - name: Install lftp
+      run: sudo apt-get update && sudo apt-get install -y lftp
+
+    - name: Deploy via lftp
+      env:
+        FTP_HOST: ${{ secrets.FTP_HOST }}
+        FTP_USERNAME: trigmauser
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        lftp -e "mirror -R ./dist /public_html --delete --verbose; quit" -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
