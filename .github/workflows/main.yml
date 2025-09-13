@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
           script: |
-            # cd /home/u826569384/domains/academic.vpszeta.in/public_html/Test/
-            cd /home/u826569384/domains/trigma.ai/public_html/Test/
+            cd /home/u826569384/domains/academic.vpszeta.in/public_html/Test/
+            # cd /home/u826569384/domains/trigma.ai/public_html/Test/
             tar -xzf dist-content.tar.gz
             rm dist-content.tar.gz
