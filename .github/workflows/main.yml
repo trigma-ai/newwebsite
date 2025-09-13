@@ -33,4 +33,4 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
           source: "dist/*"
-          target: "/home/u826569384/domains/academic.vpszeta.in/public_html"
+          target: "/home/u826569384/domains/academic.vpszeta.in/public_html/Test"
