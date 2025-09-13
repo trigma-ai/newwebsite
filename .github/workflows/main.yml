@@ -8,20 +8,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # 4️⃣ Build React project
       - name: Build React project
-        run: npm run build
+        run: |
+          npm run build
+          echo "Listing build folder contents..."
+          ls -la dist
 
+      # 5️⃣ Deploy via SSH only if dist exists
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -30,5 +38,10 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
           script: |
-            rm -rf /home/u826569384/public_html/academic.vpszeta.in/*
-            cp -r ./dist/* /home/u826569384/public_html/academic.vpszeta.in/
+            if [ -d "./dist" ]; then
+              rm -rf /home/u826569384/public_html/academic.vpszeta.in/*
+              cp -r ./dist/* /home/u826569384/public_html/academic.vpszeta.in/
+            else
+              echo "Error: dist folder not found!"
+              exit 1
+            fi
