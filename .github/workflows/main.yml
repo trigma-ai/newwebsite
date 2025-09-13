@@ -1,16 +1,33 @@
-name: Deploy to Hostinger
+name: Deploy React + Vite to Hostinger
 
 on:
   workflow_dispatch:
 
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repo
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the project
+      - name: Build React project
+        run: npm run build
+
+      # Step 5: Deploy to Hostinger via SSH
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -19,10 +36,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 22
           script: |
-            cd public_html/project
-            git pull origin main
-            # If Node/React project
-            npm install
-            npm run build
-            rm -rf ../academic.vpszeta.in/*
-            cp -r build/* ../academic.vpszeta.in/
+            # Remove old files
+            rm -rf /home/${{ secrets.HOSTINGER_USER }}/public_html/academic.vpszeta.in/*
+            # Copy new build
+            cp -r ./dist/* /home/${{ secrets.HOSTINGER_USER }}/public_html/academic.vpszeta.in/
