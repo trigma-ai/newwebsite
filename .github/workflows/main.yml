@@ -20,9 +20,9 @@ jobs:
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # 4️⃣ Build React project
+      # 4️⃣ Build React + Vite project
       - name: Build React project
         run: |
           npm run build
@@ -38,9 +38,11 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
           script: |
-            if [ -d "./dist" ]; then
+            if [ -d "dist" ]; then
+              echo "Deploying to Hostinger..."
               rm -rf /home/u826569384/public_html/academic.vpszeta.in/*
-              cp -r ./dist/* /home/u826569384/public_html/academic.vpszeta.in/
+              cp -r dist/* /home/u826569384/public_html/academic.vpszeta.in/
+              echo "Deployment complete!"
             else
               echo "Error: dist folder not found!"
               exit 1
