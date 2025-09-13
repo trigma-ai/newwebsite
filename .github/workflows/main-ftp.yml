@@ -8,36 +8,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Build React + Vite project
-      - name: Build React project
+      - name: Build React + Vite project
         run: |
           npm run build
           echo "Listing dist folder contents..."
           ls -la dist
 
-      # 5️⃣ Deploy via FTP
       - name: Deploy to academic.vpszeta.in via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ftp.academic.vpszeta.in           # your Hostinger FTP server
+          server: ftp.hostinger.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 21                            # usually 21 for FTP
-          local-dir: dist                     # local build folder
-          server-dir: /public_html/academic.vpszeta.in/  # target folder
-          protocol: ftp                       # or 'ftps' if enabled
-          dry-run: false                      # set to true to test first
+          port: 21
+          local-dir: dist
+          server-dir: /public_html/academic.vpszeta.in/
+          protocol: ftp
+          dry-run: false
