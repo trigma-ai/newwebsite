@@ -1,4 +1,4 @@
-name: Deploy React App via SSH
+name: Deploy Vite React App to Hostinger
 
 on:
   workflow_dispatch:    # Manual trigger
@@ -11,18 +11,18 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'   # Match your Node version
+        node-version: '18'   # Recommended Node version
 
     - name: Install dependencies
       run: npm install
 
-    - name: Build React App
+    - name: Build Vite React App
       run: npm run build
 
-    - name: Deploy via SSH
+    - name: Deploy to Hostinger via SSH
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -31,4 +31,4 @@ jobs:
         port: 22
         script: |
           rm -rf /home/your-hostinger-username/public_html/*
-          cp -r ./build/* /home/your-hostinger-username/public_html/
+          cp -r ./dist/* /home/your-hostinger-username/public_html/
