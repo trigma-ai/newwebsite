@@ -1,7 +1,7 @@
-name: Deploy FTP
+name: Deploy Vite React App to Hostinger via FTP
 
 on:
-  workflow_dispatch:    # Manual trigger
+  workflow_dispatch:
 
 jobs:
   ftp-deploy:
@@ -31,4 +31,4 @@ jobs:
         FTP_USERNAME: trigmauser
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
-        lftp -e "mirror -R ./dist /public_html --delete --verbose; quit" -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
+        lftp -e "set ssl:verify-certificate no; mirror -R ./dist /public_html --delete --verbose; quit" -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
