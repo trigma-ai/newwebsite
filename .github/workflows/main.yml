@@ -28,7 +28,7 @@ jobs:
       - name: Deploy to Hostinger via SCP
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: 46.28.45.69
+          host: academic.vpszeta.in
           username: u826569384
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
