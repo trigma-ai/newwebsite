@@ -1,7 +1,7 @@
 name: Deploy Vite React App to Hostinger
 
 on:
-  workflow_dispatch:    # Manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,21 +14,32 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'   # Recommended Node version
+        node-version: '18'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
 
     - name: Build Vite React App
-      run: npm run build
+      run: |
+        npm run build
 
-    - name: Deploy to Hostinger via SSH
+    - name: Copy build to Hostinger server
+      uses: appleboy/scp-action@v0.1.5
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 65002
+        source: "./dist/*"
+        target: "/home/${{ secrets.SSH_USERNAME }}/domains/academic.vpszeta.in/public_html/"
+
+    - name: Deployment complete message
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
+        port: 65002
         script: |
-          rm -rf /home/${{ secrets.SSH_USERNAME }}/public_html/*
-          cp -r ./dist/* /home/${{ secrets.SSH_USERNAME }}/public_html/
+          echo "Vite React App deployed successfully to academic.vpszeta.in"
