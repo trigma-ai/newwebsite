@@ -22,15 +22,30 @@ jobs:
       - name: Build React project
         run: |
           npm run build
-          echo "Listing build folder contents..."
           ls -la dist
 
-      - name: Deploy to Hostinger via SCP
+      - name: Create tarball of dist contents
+        run: |
+          tar -czf dist-content.tar.gz -C dist .
+
+      - name: Upload tarball to Hostinger via SCP
         uses: appleboy/scp-action@v0.1.4
         with:
           host: academic.vpszeta.in
           username: u826569384
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
-          source: "dist/**"
+          source: "dist-content.tar.gz"
           target: "/home/u826569384/domains/academic.vpszeta.in/public_html/Test/"
+
+      - name: Extract tarball on Hostinger via SSH
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: academic.vpszeta.in
+          username: u826569384
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: 65002
+          script: |
+            cd /home/u826569384/domains/academic.vpszeta.in/public_html/Test/
+            tar -xzf dist-content.tar.gz
+            rm dist-content.tar.gz
