@@ -1,51 +1,28 @@
-name: Deploy Vite React App to Hostinger
+name: Deploy to Hostinger
 
 on:
-  push:
-    branches:
-      - main  # deploy only on main branch
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Checkout the public repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # 2️⃣ Setup Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-
-    # 3️⃣ Install dependencies
-    - name: Install dependencies
-      run: npm install
-
-    # 4️⃣ Build Vite React App
-    - name: Build Vite React App
-      run: npm run build
-
-    # 5️⃣ Deploy build to Hostinger via SCP
-    - name: Copy build to Hostinger server
-      uses: appleboy/scp-action@v0.1.5
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 65002
-        source: "./dist/*"
-        target: "/home/${{ secrets.SSH_USERNAME }}/domains/academic.vpszeta.in/public_html/"
-
-    # 6️⃣ Optional: Confirm deployment via SSH
-    - name: Deployment complete message
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 65002
-        script: |
-          echo "Vite React App deployed successfully to academic.vpszeta.in"
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: 22
+          script: |
+            cd public_html/project
+            git pull origin main
+            # If Node/React project
+            npm install
+            npm run build
+            rm -rf ../academic.vpszeta.in/*
+            cp -r build/* ../academic.vpszeta.in/
